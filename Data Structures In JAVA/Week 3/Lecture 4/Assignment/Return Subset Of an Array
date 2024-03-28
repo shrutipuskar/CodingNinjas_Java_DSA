@@ -1,0 +1,84 @@
+/**Problem statement
+Given an integer array (of length n), find and return all the subsets of input array.
+
+NOTE- Subsets are of length varying from 0 to n, that contain elements of the array. But the order of elements should remain same as in the input array.
+
+Note :
+The order of subsets are not important.
+
+
+Detailed explanation ( Input/output format, Notes, Images )
+Input format :
+
+Line 1 : Size of array
+
+Line 2 : Array elements (separated by space)
+
+Expected Time Complexity: O(2^N), where N is the size of given array
+Sample Input:
+3
+15 20 12
+Sample Output:
+[] (this just represents an empty array, don't worry about the square brackets)
+12 
+20 
+20 12 
+15 
+15 12 
+15 20 
+15 20 12 
+
+*/
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class solution {
+    // Helper function to generate subsets recursively
+    private static void generateSubsets(List<List<Integer>> subsets, List<Integer> current, int[] nums, int index) {
+        // Base case: when index reaches the end of the array
+        if (index == nums.length) {
+            subsets.add(new ArrayList<>(current)); // Add the current subset to the list of subsets
+            return;
+        }
+
+        // Exclude the current element and move to the next index
+        generateSubsets(subsets, current, nums, index + 1);
+
+        // Include the current element and move to the next index
+        current.add(nums[index]);
+        generateSubsets(subsets, current, nums, index + 1);
+
+        // Backtrack by removing the last element to explore other possibilities
+        current.remove(current.size() - 1);
+    }
+
+    // Main function to generate subsets
+    public static int[][] subsets(int[] nums) {
+        List<List<Integer>> subsets = new ArrayList<>();
+        generateSubsets(subsets, new ArrayList<>(), nums, 0);
+
+        // Convert List<List<Integer>> to int[][]
+        int[][] result = new int[subsets.size()][];
+        for (int i = 0; i < subsets.size(); i++) {
+            List<Integer> subset = subsets.get(i);
+            result[i] = new int[subset.size()];
+            for (int j = 0; j < subset.size(); j++) {
+                result[i][j] = subset.get(j);
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] input = {15, 20, 12};
+        int[][] result = subsets(input);
+        for (int[] subset : result) {
+            for (int num : subset) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+    }
+}
