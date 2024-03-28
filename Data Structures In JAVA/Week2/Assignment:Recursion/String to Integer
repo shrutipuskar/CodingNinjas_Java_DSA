@@ -1,0 +1,51 @@
+/*Problem statement
+Write a recursive function to convert a given string into the number it represents. That is input will be a numeric string that contains only numbers, you need to convert the string into corresponding integer and return the answer.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Input format :
+Numeric string S (string, Eg. "1234")
+Output format :
+Corresponding integer N (int, Eg. 1234)
+Constraints :
+0 < |S| <= 9
+where |S| represents length of string S.
+Sample Input 1 :
+00001231
+Sample Output 1 :
+1231
+Sample Input 2 :
+12567
+Sample Output 2 :
+12567*/
+
+public class solution {
+
+    private static int convertStringToInt(String input, int index, int sign, int resultSoFar) {
+        if (index == input.length()) {
+            return sign * resultSoFar;
+        }
+
+        int digit = input.charAt(index) - '0';
+        int updatedResult = resultSoFar * 10 + digit;
+
+        return convertStringToInt(input, index + 1, sign, updatedResult);
+    }
+
+    public static int convertStringToInt(String input) {
+        // Check if the string is empty
+        if (input == null || input.isEmpty()) {
+            throw new IllegalArgumentException("Input string is empty");
+        }
+
+        // Determine the sign of the integer
+        int sign = 1;
+        int startIndex = 0;
+
+        if (input.charAt(0) == '-') {
+            sign = -1;
+            startIndex = 1;
+        }
+
+        return convertStringToInt(input, startIndex, sign, 0);
+    }
+}
