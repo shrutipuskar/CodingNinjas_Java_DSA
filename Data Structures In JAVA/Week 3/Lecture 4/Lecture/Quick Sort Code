@@ -1,0 +1,70 @@
+/*Problem statement
+Given the 'start' and the 'end'' positions of the array 'input'. Your task is to sort the elements between 'start' and 'end' using quick sort.
+
+
+
+Note :
+Make changes in the input array itself.
+Detailed explanation ( Input/output format, Notes, Images )
+Input format :
+Line 1 : Integer N i.e. Array size
+Line 2 : Array elements (separated by space)
+Output format :
+Array elements in increasing order (separated by space)
+Sample Input 1 :
+6 
+2 6 8 5 4 3
+Sample Output 1 :
+2 3 4 5 6 8
+Sample Input 2 :
+5
+1 2 3 5 7
+Sample Output 2 :
+1 2 3 5 7 
+Constraints :
+1 <= N <= 10^3
+0 <= input[i] <= 10^9*/
+public class Solution {
+    
+    public static void quickSort(int[] input, int startIndex, int endIndex) {
+        if (startIndex < endIndex) {
+            int pos = partition(input, startIndex, endIndex);
+            quickSort(input, startIndex, pos - 1);
+            quickSort(input, pos + 1, endIndex);
+        }
+    }
+    
+    private static int partition(int[] input, int si, int ei) {
+        int temp;
+        int count = si;
+        int pivot = input[si];
+        for (int i = si + 1; i <= ei; i++) {
+            if (input[i] < pivot) {
+                count++;
+                temp = input[i];
+                input[i] = input[count];
+                input[count] = temp;
+            }
+        }
+        temp = input[si];
+        input[si] = input[count];
+        input[count] = temp;
+        int i = si;
+        int j = ei;
+        while (i < count && j > count) {
+            if (input[i] > pivot && input[j] < pivot) {
+                temp = input[i];
+                input[i] = input[j];
+                input[j] = temp;
+                i++;
+                j--;
+            } else {
+                if (input[i] <= pivot)
+                    i++;
+                if (input[j] >= pivot)
+                    j--;
+            }
+        }
+        return count;
+    }
+}
