@@ -33,25 +33,24 @@ b c
 a c*/
 
 public class solution {
-    public static void towerOfHanoi(int disks, char source, char auxiliary, char destination) {
+private static void moveDisks(int disks, char source, char auxiliary, char destination) {
         if (disks == 1) {
             System.out.println(source + " " + destination);
             return;
         }
 
-        // Move (n-1) disks from source to auxiliary using destination as auxiliary
-        towerOfHanoi(disks - 1, source, destination, auxiliary);
-        
-        // Move the remaining one disk from source to destination
+        moveDisks(disks - 1, source, destination, auxiliary);
         System.out.println(source + " " + destination);
-        
-        // Move the (n-1) disks from auxiliary to destination using source as auxiliary
-        towerOfHanoi(disks - 1, auxiliary, source, destination);
+        moveDisks(disks - 1, auxiliary, source, destination);
+    }
+    public static void towerOfHanoi(int disks, char source, char auxiliary, char destination) {
+        if (disks <= 0) {
+            return; // No disks to move
+        }
+
+        moveDisks(disks, source, auxiliary, destination);
     }
 
-    public static void main(String[] args) {
-        int n = 3; // Change the value of n as per requirement
-        char source = 'a', auxiliary = 'b', destination = 'c';
-        towerOfHanoi(n, source, auxiliary, destination);
-    }
+    
+
 }
